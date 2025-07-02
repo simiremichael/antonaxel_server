@@ -1,0 +1,87 @@
+<mjml>
+  <mj-head>
+    <mj-title>Order Confirmation</mj-title>
+    <mj-font
+      name="Poppins"
+      href="https://fonts.googleapis.com/css?family=Poppins:400,600"
+    />
+    <mj-attributes>
+      <mj-all font-family="Poppins, sans-serif" />
+      <mj-text padding="0" line-height="1.5" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#f7f7f7">
+    <!-- Header Section -->
+    <mj-section padding="40px 0" background-color="#ffffff">
+      <mj-column>
+        <mj-image src="{{logoUrl}}" width="150px" align="center"></mj-image>
+        <mj-text
+          align="center"
+          font-size="28px"
+          color="#333"
+          padding="20px 0 0"
+        >
+          Thank you for your order!
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Order Summary -->
+    <mj-section padding="30px 20px" background-color="#ffffff">
+      <mj-column>
+        <mj-text font-size="18px" color="#555">
+          Hi {{customerName}}, your order <strong>#{{orderId}}</strong> is
+          confirmed!
+        </mj-text>
+
+        <mj-table cellpadding="10px" width="100%">
+          <tr style="border-bottom: 1px solid #eaeaea">
+            <th align="left" style="padding-bottom: 8px">Item</th>
+            <th align="right" style="padding-bottom: 8px">Price</th>
+            <th align="right" style="padding-bottom: 8px">Qty</th>
+            <th align="right" style="padding-bottom: 8px">Total</th>
+          </tr>
+          {{#each items}}
+          <tr style="border-bottom: 1px solid #f5f5f5">
+            <td style="padding: 12px 0">{{this.name}}</td>
+            <td align="right">₦{{formatPrice this.price}}</td>
+            <td align="right">{{this.quantity}}</td>
+            <td align="right">₦{{multiply this.price this.quantity}}</td>
+          </tr>
+          {{/each}}
+          <tr style="border-top: 2px solid #eaeaea">
+            <td colspan="3" align="right" style="padding-top: 12px">
+              <strong>Subtotal:</strong>
+            </td>
+            <td align="right" style="padding-top: 12px">
+              ₦{{formatPrice subtotal}}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" align="right"><strong>Shipping:</strong></td>
+            <td align="right">₦{{formatPrice shipping}}</td>
+          </tr>
+          <tr>
+            <td colspan="3" align="right"><strong>Total:</strong></td>
+            <td align="right"><strong>₦{{formatPrice total}}</strong></td>
+          </tr>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+
+    <!-- Shipping Info -->
+    <mj-section padding="20px" background-color="#f9f9f9">
+      <mj-column>
+        <mj-text font-size="16px" color="#555">
+          <strong>Shipping to:</strong><br />
+          {{shippingAddress}}<br />
+          {{#if shippingNotes}}(Note: {{shippingNotes}}){{/if}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    {{> footer }}
+  </mj-body>
+</mjml>
