@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
     if (error) throw error;
 
     // Send confirmation email (async - don't await)
-    await sendOrderConfirmation(order)
+    await sendOrderConfirmation(order)  
       .then(result => {
         if (!result.success) {
           console.error('Email failed for order:', order.id);
