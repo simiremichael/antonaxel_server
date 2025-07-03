@@ -67,7 +67,8 @@ return `
 ORDER CONFIRMATION
 ------------------
 Order #: ${order.id}
-Date: ${new Date(order.created_at).toLocaleDateString()}
+Date: ${day(order.created_at).format('YYYY-MM-DD')}
+}
 
 ITEMS:
 ${order.items.map(i => `${i.quantity}x ${i.name} - ₦${format(i.price)}`).join('\n')}
