@@ -1,5 +1,6 @@
 import { createTransport } from 'nodemailer';
 import { compileTemplate } from '../utils/templateCompiler.js';
+import dayjs from 'dayjs';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -23,12 +24,13 @@ const transporter = createTransport({
 });
 
 export const sendOrderConfirmation = async (order) => {
-  console.log(order)
+  // console.log(order)
   try {
     const html = compileTemplate({
       ...order,
       orderId: order.id,
-      orderDate: order.created_at
+      orderDate: dayjs(order.created_at).format('YYYY-MM-DD'),
+
     });
 
     const mailOptions = {

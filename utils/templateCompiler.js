@@ -4,6 +4,7 @@ import path from 'path';
 import mjml2html from 'mjml';
 import Handlebars from 'handlebars';
 import { fileURLToPath } from 'url';
+import dayjs from 'dayjs';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -36,6 +37,7 @@ Handlebars.registerPartial('footer',
 );
 
 export const compileTemplate = (data) => {
+  console.log(data)
   const templatePath = path.join(__dirname, '../templates/order-confirmation.mjml');
   const templateContent = fs.readFileSync(templatePath, 'utf8');
   
@@ -46,7 +48,9 @@ export const compileTemplate = (data) => {
     contactUrl: process.env.CONTACT_URL,
     privacyUrl: process.env.PRIVACY_URL,
     logoUrl: process.env.LOGO_URL,
-    ...data
+    total: data.total_price.toLocaleString(),
+    ...data,
+    shippingNotes: "Our agent will contact you shortly to complete your order."
   });
 
   // Convert MJML to HTML
