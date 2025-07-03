@@ -11,7 +11,10 @@ const app = express();
 // Security Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS.split(',')
+  credentials: true,
+    origin: ['https://www.antonaxel.com.ng', 'http://localhost:8000', 
+    ],
+    headers: 'x-www-form-urlencoded, Origin, X-Requested-With, Content-Type, Accept, Authorization, authorization, userauthorization,userAuthorization, comauthorization, comAuthorization, *'
 }));
 
 // Rate Limiting (100 requests per 15 minutes)
