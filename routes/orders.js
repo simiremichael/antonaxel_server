@@ -40,6 +40,7 @@ router.post('/', async (req, res) => {
 
     res.status(201).json({
       success: true,
+      message: 'Order created successfully',
       orderId: order.id
     });
 

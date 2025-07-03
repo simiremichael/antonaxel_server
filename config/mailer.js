@@ -67,7 +67,7 @@ return `
 ORDER CONFIRMATION
 ------------------
 Order #: ${order.id}
-Date: ${day(order.created_at).format('YYYY-MM-DD')}
+Date: ${dayjs(order.created_at).format('YYYY-MM-DD')}
 }
 
 ITEMS:
