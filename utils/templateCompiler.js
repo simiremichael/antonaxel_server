@@ -49,7 +49,7 @@ export const compileTemplate = (data) => {
     privacyUrl: process.env.PRIVACY_URL,
     logoUrl: process.env.LOGO_URL,
     total: data.total_price,
-    items: data.items,
+    ...data,
     address: `${data.address, data.location}`,
     shippingNotes: "Our agent will contact you shortly to complete your order."
   });
