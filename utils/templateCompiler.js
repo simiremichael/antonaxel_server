@@ -26,7 +26,7 @@ Handlebars.registerHelper('multiply', (a, b) => {
 });
 Handlebars.registerHelper('formatPrice', (price) => {
   if (typeof price === 'number') {
-    return price.toFixed(2);
+    return price.toLocaleString();
   }
   return '0.00'; // Default to 0.00 if price is not a number
 });
@@ -37,7 +37,7 @@ Handlebars.registerPartial('footer',
 );
 
 export const compileTemplate = (data) => {
-  console.log(data)
+  // console.log(data)
   const templatePath = path.join(__dirname, '../templates/order-confirmation.mjml');
   const templateContent = fs.readFileSync(templatePath, 'utf8');
   
@@ -48,8 +48,9 @@ export const compileTemplate = (data) => {
     contactUrl: process.env.CONTACT_URL,
     privacyUrl: process.env.PRIVACY_URL,
     logoUrl: process.env.LOGO_URL,
-    total: data.total_price.toLocaleString(),
-    ...data,
+    total: data.total_price,
+    items: order.items,
+    address: `${data.address, data.location}`,
     shippingNotes: "Our agent will contact you shortly to complete your order."
   });
 
