@@ -3,6 +3,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import ordersRouter from './routes/orders.js';
+import getOrdersRouter from './routes/getOrders.js';
 
 
 
@@ -29,6 +30,8 @@ app.use(json({ limit: '10kb' }));
 
 // Routes
 app.use('/api/orders', ordersRouter);
+
+app.use("/api/getOrders", getOrdersRouter); 
 
 // Health Check
 app.get('/health', (req, res) => res.sendStatus(200));

@@ -1,5 +1,6 @@
 import { createTransport } from 'nodemailer';
 import { compileTemplate } from '../utils/templateCompiler.js';
+import { compileStatusTemplate } from '../utils/statusCompiler.js';
 import dayjs from 'dayjs';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -36,6 +37,46 @@ export const sendOrderConfirmation = async (order) => {
     const mailOptions = {
       from: `"${process.env.EMAIL_FROM_NAME}" <${process.env.EMAIL_FROM_ADDRESS}>`,
       to: order.email,
+      cc: process.env.CC_EMAIL_ADDRESS,
+      replyTo: process.env.REPLY_TO_EMAIL || process.env.EMAIL_FROM_ADDRESS,
+      subject: `Your Order #${order.id} Confirmation`,
+      html,
+      text: generateTextVersion(order),
+      // headers: {
+      //   'X-Mailer': 'Your Store',
+      //   'X-Priority': '1' // High priority
+      // }
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Zoho Message ID:', info.messageId);
+    return { success: true, messageId: info.messageId };
+
+  } catch (error) {
+    console.error('Zoho Send Error:', error);
+    return { 
+      success: false, 
+      error: error.message,
+      stack: error.stack 
+    };
+  }
+};
+
+export const sendStatusConfirmation = async (data) => {
+  // console.log(order)
+  try {
+    const html = compileStatusTemplate({
+      ...data,
+      orderId: order.id,
+      status: data.status,
+      orderUpdate: dayjs(order.created_at).format('YYYY-MM-DD'),
+
+    });
+
+    const mailOptions = {
+      from: `"${process.env.EMAIL_FROM_NAME}" <${process.env.EMAIL_FROM_ADDRESS}>`,
+      to: order.email,
+      cc: process.env.CC_EMAIL_ADDRESS,
       replyTo: process.env.REPLY_TO_EMAIL || process.env.EMAIL_FROM_ADDRESS,
       subject: `Your Order #${order.id} Confirmation`,
       html,

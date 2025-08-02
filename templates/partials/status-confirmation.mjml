@@ -1,0 +1,194 @@
+<mjml>
+  <mj-head>
+    <mj-title>Order Status Update - {{orderId}}</mj-title>
+    <mj-preview
+      >Your order #{{orderId}} status has been updated to {{status}}</mj-preview
+    >
+    <mj-attributes>
+      <mj-all font-family="Arial, sans-serif" />
+      <mj-text font-size="14px" color="#333333" line-height="1.6" />
+      <mj-section background-color="#ffffff" />
+    </mj-attributes>
+    <mj-style inline="inline">
+      .status-badge { display: inline-block; padding: 8px 16px; border-radius:
+      20px; font-weight: bold; text-transform: uppercase; font-size: 12px;
+      letter-spacing: 1px; } .success-badge { background-color: #d4edda; color:
+      #155724; border: 1px solid #c3e6cb; } .failed-badge { background-color:
+      #f8d7da; color: #721c24; border: 1px solid #f5c6cb; } .pending-badge {
+      background-color: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+    </mj-style>
+  </mj-head>
+  <mj-body background-color="#f8f9fa">
+    <!-- Header -->
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-image src="{{logoUrl}}" alt="Logo" width="150px" align="center" />
+      </mj-column>
+    </mj-section>
+
+    <!-- Status Header -->
+    <mj-section background-color="{{statusColor}}" padding="30px 20px">
+      <mj-column>
+        <mj-text
+          align="center"
+          color="#ffffff"
+          font-size="24px"
+          font-weight="bold"
+        >
+          {{statusIcon}} Order Status Update
+        </mj-text>
+        <mj-text align="center" color="#ffffff" font-size="16px">
+          Order #{{orderId}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Main Content -->
+    <mj-section background-color="#ffffff" padding="40px 20px">
+      <mj-column>
+        <mj-text
+          align="center"
+          font-size="18px"
+          font-weight="bold"
+          color="#333333"
+        >
+          {{getStatusMessage status}}
+        </mj-text>
+
+        <mj-divider
+          border-color="#e9ecef"
+          border-width="1px"
+          padding="20px 0"
+        />
+
+        <!-- Status Badge -->
+        <mj-text align="center" padding="10px 0">
+          {{#if isSuccess}}
+          <span class="status-badge success-badge">{{status}}</span>
+          {{else if isFailed}}
+          <span class="status-badge failed-badge">{{status}}</span>
+          {{else}}
+          <span class="status-badge pending-badge">{{status}}</span>
+          {{/if}}
+        </mj-text>
+
+        <!-- Order Details -->
+        <mj-text
+          font-size="16px"
+          font-weight="bold"
+          color="#333333"
+          padding="20px 0 10px 0"
+        >
+          Order Details:
+        </mj-text>
+
+        <mj-text font-size="14px" color="#666666">
+          <strong>Order ID:</strong> #{{orderId}}<br />
+          <strong>Order Date:</strong> {{orderDate}}<br />
+          <strong>Status Updated:</strong> {{updateDate}}<br />
+          {{#if total_price}}<strong>Total:</strong> ₦{{formatPrice
+          total_price}}<br />{{/if}}
+        </mj-text>
+
+        {{#if address}}
+        <mj-text font-size="14px" color="#666666" padding="10px 0">
+          <strong>Delivery Address:</strong><br />
+          {{address}}
+        </mj-text>
+        {{/if}}
+
+        <!-- Items List (if available) -->
+        {{#if items}}
+        <mj-text
+          font-size="16px"
+          font-weight="bold"
+          color="#333333"
+          padding="20px 0 10px 0"
+        >
+          Items:
+        </mj-text>
+
+        {{#each items}}
+        <mj-text font-size="14px" color="#666666" padding="5px 0">
+          {{quantity}}x {{name}} - ₦{{formatPrice price}}
+        </mj-text>
+        {{/each}} {{/if}}
+
+        <!-- Status-specific messaging -->
+        {{#if isSuccess}}
+        <mj-section
+          background-color="#d4edda"
+          border-radius="8px"
+          padding="20px"
+          margin="20px 0"
+        >
+          <mj-column>
+            <mj-text color="#155724" font-size="14px" align="center">
+              {{#if (eq status 'delivered')}} 🎉 Your order has been
+              successfully delivered! We hope you enjoy your purchase. {{else}}
+              ✨ Great news! Your order is progressing smoothly. You'll receive
+              another update soon. {{/if}}
+            </mj-text>
+          </mj-column>
+        </mj-section>
+        {{/if}} {{#if isFailed}}
+        <mj-section
+          background-color="#f8d7da"
+          border-radius="8px"
+          padding="20px"
+          margin="20px 0"
+        >
+          <mj-column>
+            <mj-text color="#721c24" font-size="14px" align="center">
+              We apologize for any inconvenience. Our customer service team will
+              contact you shortly to resolve this issue.
+            </mj-text>
+          </mj-column>
+        </mj-section>
+        {{/if}}
+
+        <!-- Contact Information -->
+        <mj-divider
+          border-color="#e9ecef"
+          border-width="1px"
+          padding="30px 0 20px 0"
+        />
+
+        <mj-text align="center" font-size="14px" color="#666666">
+          Questions about your order?
+          <a href="{{contactUrl}}" style="color: #007bff; text-decoration: none"
+            >Contact our support team</a
+          >
+        </mj-text>
+
+        <!-- Action Button (conditional) -->
+        {{#if isSuccess}}
+        <mj-button
+          background-color="#28a745"
+          color="#ffffff"
+          font-size="16px"
+          border-radius="25px"
+          padding="15px 30px"
+          href="{{contactUrl}}"
+        >
+          Track Your Order
+        </mj-button>
+        {{else if isFailed}}
+        <mj-button
+          background-color="#dc3545"
+          color="#ffffff"
+          font-size="16px"
+          border-radius="25px"
+          padding="15px 30px"
+          href="{{contactUrl}}"
+        >
+          Get Help
+        </mj-button>
+        {{/if}}
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    {{> footer}}
+  </mj-body>
+</mjml>
