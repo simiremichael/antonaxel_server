@@ -4,6 +4,7 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import ordersRouter from './routes/orders.js';
 import getOrdersRouter from './routes/getOrders.js';
+import updateOrderRouter from './routes/updateOrder.js'
 
 
 
@@ -32,6 +33,7 @@ app.use(json({ limit: '10kb' }));
 app.use('/api/orders', ordersRouter);
 
 app.use("/api/getOrders", getOrdersRouter); 
+app.use("/api/updateOrder", updateOrderRouter)
 
 // Health Check
 app.get('/health', (req, res) => res.sendStatus(200));

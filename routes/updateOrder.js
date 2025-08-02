@@ -5,7 +5,9 @@ const router = Router();
 
 
 router.put("/", async(req, res) => {
+    
     const {status} = req.body;
+
 if(!status) return res.status(400).json({error: "Status is required"});
 
     try {
