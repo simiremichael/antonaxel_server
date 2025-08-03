@@ -5,7 +5,7 @@ import rateLimit from 'express-rate-limit';
 import ordersRouter from './routes/orders.js';
 import getOrdersRouter from './routes/getOrders.js';
 import updateOrderRouter from './routes/updateOrder.js'
-
+import deleteOrderRouter from './routes/deleteOrder.js'
 
 
 const app = express();
@@ -34,6 +34,7 @@ app.use('/api/orders', ordersRouter);
 
 app.use("/api/getOrders", getOrdersRouter); 
 app.use("/api/updateOrder", updateOrderRouter)
+app.use("/api/deleteOrder", deleteOrderRouter)
 
 // Health Check
 app.get('/health', (req, res) => res.sendStatus(200));

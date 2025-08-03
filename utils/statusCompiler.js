@@ -82,7 +82,7 @@ const determineStatus = (status) => {
   const successStatuses = ['successful', 'completed', 'delivered'];
   const failedStatuses = ['failed', 'cancelled', 'rejected'];
   
-  let classification = 'pending';
+  let classification = 'processing';
   let icon = '⏳';
   let color = '#ffc107';
   
