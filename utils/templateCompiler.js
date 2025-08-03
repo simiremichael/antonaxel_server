@@ -50,6 +50,7 @@ export const compileTemplate = (data) => {
     logoUrl: process.env.LOGO_URL,
     total: data.total_price,
     ...data,
+    item: data.order_summary.item_count,
     address: `${data.address, data.location}`,
     shippingNotes: "Our agent will contact you shortly to complete your order."
   });

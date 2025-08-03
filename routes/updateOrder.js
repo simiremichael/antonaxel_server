@@ -4,7 +4,7 @@ import { sendStatusConfirmation } from '../config/mailer.js';
 
 const router = Router();
 
-router.put("/", async(req, res) => {
+router.patch("/", async(req, res) => {
     const {status, orderId} = req.body;
 
     if(!status) return res.status(400).json({error: "Status is required"});
