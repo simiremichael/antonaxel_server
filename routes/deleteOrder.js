@@ -5,7 +5,7 @@ const router = Router();
 
 // Router endpoint for DELETE requests
 router.delete("/", async (req, res) => {
-    const { orderId } = req.body;
+    const { orderId } = req.params;
 
     if (!orderId) {
         return res.status(400).json({
