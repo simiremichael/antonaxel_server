@@ -34,7 +34,7 @@ app.use('/api/orders', ordersRouter);
 
 app.use("/api/getOrders", getOrdersRouter); 
 app.use("/api/updateOrder", updateOrderRouter)
-app.use("/api/deleteOrder", deleteOrderRouter)
+app.use("/api/deleteOrder/:orderId", deleteOrderRouter)
 
 // Health Check
 app.get('/health', (req, res) => res.sendStatus(200));
