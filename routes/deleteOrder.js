@@ -4,8 +4,11 @@ import supabase from '../config/supabase.js';
 const router = Router();
 
 // Router endpoint for DELETE requests
-router.delete("/", async (req, res) => {
-    const { orderId } = req.params;
+router.delete("/:orderId", async (req, res) => {
+   
+    const  {orderId}  = req.params;
+
+   // console.log(orderId)
 
     if (!orderId) {
         return res.status(400).json({
@@ -17,8 +20,7 @@ router.delete("/", async (req, res) => {
        const { data, error } =  await supabase
        .from("orders")
        .delete()
-       .eq('id', orderId)
-       .select();
+       .eq('id', orderId);
 
        if (error) throw error;
         
