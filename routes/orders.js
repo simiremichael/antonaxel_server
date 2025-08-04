@@ -59,26 +59,26 @@ export default router;
 
 
 
-// Add these fields to your existing Order model
-const orderSchema = new mongoose.Schema({
-  // ... existing fields ...
-  paymentStatus: {
-    type: String,
-    enum: ['pending', 'paid', 'failed'],
-    default: 'pending'
-  },
-  paymentType: {
-    type: String,
-    enum: ['pay now', 'pay small small'],
-    required: true
-  },
-  paymentReference: {
-    type: String,
-    sparse: true // Only for 'pay now' orders
-  },
-  paymentData: {
-    type: Object, // Store Paystack response data
-    default: null
-  }
-  // ... existing fields ...
-});
+// // Add these fields to your existing Order model
+// const orderSchema = new mongoose.Schema({
+//   // ... existing fields ...
+//   paymentStatus: {
+//     type: String,
+//     enum: ['pending', 'paid', 'failed'],
+//     default: 'pending'
+//   },
+//   paymentType: {
+//     type: String,
+//     enum: ['pay now', 'pay small small'],
+//     required: true
+//   },
+//   paymentReference: {
+//     type: String,
+//     sparse: true // Only for 'pay now' orders
+//   },
+//   paymentData: {
+//     type: Object, // Store Paystack response data
+//     default: null
+//   }
+//   // ... existing fields ...
+// });

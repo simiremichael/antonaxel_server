@@ -7,6 +7,7 @@ import getOrdersRouter from './routes/getOrders.js';
 import updateOrderRouter from './routes/updateOrder.js'
 import deleteOrderRouter from './routes/deleteOrder.js'
 import paymentRouter from './routes/payment.js'
+import verifyPaymentRouter from './routes/verifyPayment.js'
 
 
 const app = express();
@@ -28,7 +29,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Body Parsing
-app.use(json({ limit: '10kb' }));
+app.use(json({ limit: '50kb' }));
 
 // Routes
 app.use('/api/orders', ordersRouter);
@@ -37,6 +38,8 @@ app.use("/api/getOrders", getOrdersRouter);
 app.use("/api/updateOrder", updateOrderRouter)
 app.use("/api/deleteOrder", deleteOrderRouter)
 app.use("/api/initialize-payment", paymentRouter)
+app.use("/api/verify-payment", verifyPaymentRouter)
+
 
 // Health Check
 app.get('/health', (req, res) => res.sendStatus(200));

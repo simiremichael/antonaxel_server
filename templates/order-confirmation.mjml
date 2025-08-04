@@ -45,7 +45,7 @@
           <tr style="border-bottom: 1px solid #f5f5f5">
             <td style="padding: 12px 0">{{this.name}}</td>
             <td align="right">₦{{formatPrice this.price}}</td>
-            <td align="right">{{this.item}}</td>
+            <td align="right">{{this.order_summary.item_count}}</td>
           </tr>
           {{/each}}
           <tr>
