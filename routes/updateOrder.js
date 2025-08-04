@@ -11,14 +11,13 @@ router.patch("/", async(req, res) => {
     if(!orderId) return res.status(400).json({error: "Order ID is required"});
 
     try {
-        // Correct Supabase update syntax
         const { data, error } = await supabase
-            .from("orders") // Fixed table name (should match your other files)
+            .from("orders")
             .update({
-                status: status, // Fixed typo: was "staus"
+                status: status,
             })
-            .eq('id', orderId) // Fixed filter method
-            .select('*') // Return updated data
+            .eq('id', orderId)
+            .select('*')
             .single();
 
         if (error) throw error;
@@ -33,7 +32,7 @@ router.patch("/", async(req, res) => {
             .catch(e => console.log('Email error:', e));
 
         res.status(200).json({success: true, message: "Order updated successfully", data});
-        
+
     } catch (error) {
         console.error('Update order error:', error);
         res.status(500).json({

@@ -3,8 +3,8 @@ import { compileTemplate } from '../utils/templateCompiler.js';
 import { compileStatusTemplate } from '../utils/statusCompiler.js';
 import dayjs from 'dayjs';
 import dotenv from 'dotenv';
-dotenv.config();
 
+dotenv.config();
 
 // Zoho-specific transporter config
 const transporter = createTransport({
@@ -15,23 +15,15 @@ const transporter = createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD
   },
-  // tls: {
-  //   // Required for Zoho
-  //   rejectUnauthorized: true,
-  //   minVersion: "TLSv1.2"
-  // },
-  // logger: true, // Enable for debugging
-  // debug: true   // Show debug output
 });
 
 export const sendOrderConfirmation = async (order) => {
-  // console.log(order)
   try {
     const html = compileTemplate({
       ...order,
       orderId: order.id,
       orderDate: dayjs(order.created_at).format('YYYY-MM-DD'),
-
+      items: order.items // Ensure items are included
     });
 
     const mailOptions = {
@@ -42,10 +34,6 @@ export const sendOrderConfirmation = async (order) => {
       subject: `Your Order #${order.id} Confirmation`,
       html,
       text: generateTextVersion(order),
-      // headers: {
-      //   'X-Mailer': 'Your Store',
-      //   'X-Priority': '1' // High priority
-      // }
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -63,28 +51,22 @@ export const sendOrderConfirmation = async (order) => {
 };
 
 export const sendStatusConfirmation = async (data) => {
-  // console.log(order)
   try {
     const html = compileStatusTemplate({
       ...data,
-      orderId: order.id,
+      orderId: data.id, // Ensure orderId is passed correctly
       status: data.status,
-      orderUpdate: dayjs(order.created_at).format('YYYY-MM-DD'),
-
+      orderUpdate: dayjs(data.created_at).format('YYYY-MM-DD'),
     });
 
     const mailOptions = {
       from: `"${process.env.EMAIL_FROM_NAME}" <${process.env.EMAIL_FROM_ADDRESS}>`,
-      to: order.email,
+      to: data.email, // Ensure the email is sent to the correct user
       cc: process.env.CC_EMAIL_ADDRESS,
       replyTo: process.env.REPLY_TO_EMAIL || process.env.EMAIL_FROM_ADDRESS,
-      subject: `Your Order #${order.id} Confirmation`,
+      subject: `Your Order #${data.id} Status Update`,
       html,
-      text: generateTextVersion(order),
-      // headers: {
-      //   'X-Mailer': 'Your Store',
-      //   'X-Priority': '1' // High priority
-      // }
+      text: generateTextVersion(data),
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -103,23 +85,8 @@ export const sendStatusConfirmation = async (data) => {
 
 // Helper for text version
 const generateTextVersion = (order) => {
-const format = (price) => (typeof price === 'number' ? price.toFixed(2) : '0.00');
-return `
-ORDER CONFIRMATION
-------------------
-Order #: ${order.id}
-Date: ${dayjs(order.created_at).format('YYYY-MM-DD')}
-}
-
-ITEMS:
-${order.items.map(i => `${i.quantity}x ${i.name} - ₦${format(i.price)}`).join('\n')}
-
-
-TOTAL: ₦${format(order.total_price)}
-
-Shipping to:
-${order.address}
-${order.address}, ${order.location}
-`;
+  const format = (price) => (typeof price === 'number' ? price.toFixed(2) : '0.00');
+  return `\nORDER CONFIRMATION\n------------------\nOrder #: ${order.id}\nDate: ${dayjs(order.created_at).format('YYYY-MM-DD')}\n\nITEMS:\n${order.items.map(i => `${i.quantity}x ${i.name} - ₦${format(i.price)}`).join('\n')}\n\nTOTAL: ₦${format(order.total_price)}\n\nShipping to:\n${order.address}\n${order.location}\n`;
 };
+
 export default { sendOrderConfirmation };
