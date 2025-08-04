@@ -3,7 +3,7 @@ const router = express.Router();
 const https = require('https');
 
 // Initialize Paystack payment
-router.post('/initialize-payment', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { orderId, email, amount, callback_url, metadata } = req.body;
 
